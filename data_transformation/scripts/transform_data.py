@@ -49,7 +49,7 @@ def transform_and_save(data, output_path, nome):
         df["AMB"] = df["AMB"].replace({"AMB": "Seg. Ambulatorial"})
 
         # Salva o DataFrame em um arquivo CSV e codificação UTF-8
-        df.to_csv(output_path, index=False, encoding="utf-8")
+        df.to_csv(output_path, index=False, sep=";", encoding="utf-8")
 
         logging.info(f"Dados transformados e arquivo CSV salvo: {output_path}")
         return True
