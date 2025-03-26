@@ -28,10 +28,10 @@ def transform_and_save(data, output_path, nome):
             "CAPÍTULO",
         ]
 
-        # Verificação para saber se os dados tem o número correto de colunas
+        # Verificação para saber se os dados têm o número correto de colunas
         if len(df.columns) != len(colunas):
             logging.error(
-                f"Erro ao transformar os dados: número de colunas incorreto{len(colunas)}, obtido {len(df.columns)}."
+                f"Erro ao transformar os dados: número de colunas incorreto. Esperado {len(colunas)}, obtido {len(df.columns)}."
             )
             return False
 
@@ -41,14 +41,14 @@ def transform_and_save(data, output_path, nome):
         # Prita as colunas
         print("Colunas do DataFrame:", df.columns)
 
-        # Printa as primeiras linhas do DataFrame para verificar se a transformação foi feita corretamente
+        # Printa as primeiras linhas do DataFrame para verificar a transformação
         print("Primeiras linhas do DataFrame:\n", df.head())
 
-        # Substituição das abreviações OD e AMB para as descrições completas, conforme legenda
+        # Substituição das abreviações "OD" e "AMB" para as descrições completas, conforme legenda
         df["OD"] = df["OD"].replace({"OD": "Seg. Odontológica"})
         df["AMB"] = df["AMB"].replace({"AMB": "Seg. Ambulatorial"})
 
-        # Salva o DataFrame em um arquivo CSV e codificação UTF-8
+        # Salva o DataFrame em um arquivo CSV com separador ponto e vírgula e codificação UTF-8
         df.to_csv(output_path, index=False, sep=";", encoding="utf-8")
 
         logging.info(f"Dados transformados e arquivo CSV salvo: {output_path}")

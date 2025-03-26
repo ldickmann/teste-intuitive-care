@@ -1,5 +1,4 @@
 import pdfplumber
-import re
 import logging
 
 
@@ -11,44 +10,26 @@ def setup_logging():
 
 
 def extract_table_data(pdf_path):
-    """Extrai dados da tabela do PDF."""
+    """Extrai dados da tabela do PDF usando pdfplumber."""
     setup_logging()
 
     all_data = []
     try:
         with pdfplumber.open(pdf_path) as pdf:
             for page in pdf.pages:
-                text = page.extract_text()
-                lines = text.split("\n")
-                start_table = False
-                for line in lines:
-                    if "PROCEDIMENTO" in line and "VIGÊNCIA" in line:
-                        start_table = True
-                        continue
+                table = page.extract_table()
+                if table:
+                    for row in table:
+                        # Remove linhas vazias ou com colunas None
+                        row_clean = [col.strip() if col else "" for col in row]
 
-                    if start_table:
-                        if "OD" in line and "AMB" in line:
-                            continue
-
-                        parts = re.split(r"\s{2,}", line.strip())
-
-                        # Se houver mais de 13 colunas, tenta reagrupar
-                        if len(parts) > 13:
-                            parts[0] = " ".join(parts[:2])
-                            parts = parts[:1] + parts[2:]
-
-                        # Se houver menos de 13, adicione colunas vazias
-                        if len(parts) < 13:
-                            logging.warning(
-                                f"Linha com número incorreto de colunas (antes do padding): {parts}"
-                            )
-                            parts.extend([""] * (13 - len(parts)))
-
-                        # Se após o padding atingir 13 colunas, adiciona a linha
-                        if len(parts) == 13:
-                            all_data.append(parts)
+                        # Verifica se o número de colunas está correto (13)
+                        if len(row_clean) == 13:
+                            all_data.append(row_clean)
                         else:
-                            logging.warning(f"Linha descartada: {parts}")
+                            logging.warning(
+                                f"Linha ignorada por estar incompleta: {row_clean}"
+                            )
 
         logging.info(f"Total de linhas extraídas: {len(all_data)}")
     except Exception as e:
