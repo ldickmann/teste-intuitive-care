@@ -1,5 +1,6 @@
 import pdfplumber
 import logging
+import unicodedata
 
 
 def setup_logging():
@@ -14,16 +15,43 @@ def extract_table_data(pdf_path):
     setup_logging()
 
     all_data = []
+    seen_headers = False  # Variável para verificar se o cabeçalho já foi visto
+
     try:
         with pdfplumber.open(pdf_path) as pdf:
             for page in pdf.pages:
                 table = page.extract_table()
                 if table:
                     for row in table:
-                        # Remove linhas vazias ou com colunas None
-                        row_clean = [col.strip() if col else "" for col in row]
+                        # Correção de caracteres, normaliza acentos e remoção de espaços extras
+                        row_clean = [
+                            unicodedata.normalize("NFC", col.strip()) if col else ""
+                            for col in row
+                        ]
 
-                        # Verifica se o número de colunas está correto (13)
+                        # Definição do cabeçalho
+                        header_ref = [
+                            "PROCEDIMENTO",
+                            "RN (alteração)",
+                            "VIGÊNCIA",
+                            "OD",
+                            "AMB",
+                            "HCO",
+                            "HSO",
+                            "REF",
+                            "PAC",
+                            "DUT",
+                            "SUBGRUPO",
+                            "GRUPO",
+                            "CAPÍTULO",
+                        ]
+
+                        # Não adiciona cabeçalho duplicado
+                        if not seen_headers and row_clean == header_ref:
+                            seen_headers = True
+                            continue
+
+                        # Verifica se a linha tem o número correto de colunas
                         if len(row_clean) == 13:
                             all_data.append(row_clean)
                         else:

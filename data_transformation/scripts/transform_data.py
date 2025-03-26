@@ -44,6 +44,9 @@ def transform_and_save(data, output_path, nome):
         # Printa as primeiras linhas do DataFrame para verificar a transformação
         print("Primeiras linhas do DataFrame:\n", df.head())
 
+        # Remoção de linhas duplicadas do cabeçalho
+        df = df[df["PROCEDIMENTO"] != "PROCEDIMENTO"]
+
         # Substituição das abreviações "OD" e "AMB" para as descrições completas, conforme legenda
         df["OD"] = df["OD"].replace({"OD": "Seg. Odontológica"})
         df["AMB"] = df["AMB"].replace({"AMB": "Seg. Ambulatorial"})
