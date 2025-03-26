@@ -1,7 +1,6 @@
 import pdfplumber
 import re
 import logging
-import pandas as pd
 
 
 def setup_logging():
@@ -21,8 +20,6 @@ def extract_table_data(pdf_path):
             for page in pdf.pages:
                 text = page.extract_text()
                 lines = text.split("\n")
-
-                # Encontra o início da tabela procurando por um cabeçalho ou linha chave
                 start_table = False
                 for line in lines:
                     if "PROCEDIMENTO" in line and "VIGÊNCIA" in line:
@@ -30,33 +27,28 @@ def extract_table_data(pdf_path):
                         continue
 
                     if start_table:
-                        # Ignora linhas de cabeçalho
                         if "OD" in line and "AMB" in line:
                             continue
 
-                        # Log para verificação do conteúdo extraído da linha
-                        logging.debug(f"Linha extraída: {line}")
-
-                        # Divisão da linha em colunas
                         parts = re.split(r"\s{2,}", line.strip())
 
-                        # Ajusta as colunas com base no número de colunas esperado
+                        # Se houver mais de 13 colunas, tenta reagrupar
                         if len(parts) > 13:
                             parts[0] = " ".join(parts[:2])
                             parts = parts[:1] + parts[2:]
-                        elif len(parts) < 13:
-                            logging.warning(
-                                f"Linha com número incorreto de colunas: {parts}"
-                            )
-                            continue
 
-                        # Verifica se a linha tem 13 colunas
+                        # Se houver menos de 13, adicione colunas vazias
+                        if len(parts) < 13:
+                            logging.warning(
+                                f"Linha com número incorreto de colunas (antes do padding): {parts}"
+                            )
+                            parts.extend([""] * (13 - len(parts)))
+
+                        # Se após o padding atingir 13 colunas, adiciona a linha
                         if len(parts) == 13:
                             all_data.append(parts)
                         else:
-                            logging.warning(
-                                f"Linha com número incorreto de colunas: {parts}"
-                            )
+                            logging.warning(f"Linha descartada: {parts}")
 
         logging.info(f"Total de linhas extraídas: {len(all_data)}")
     except Exception as e:
