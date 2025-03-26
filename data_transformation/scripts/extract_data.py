@@ -10,6 +10,14 @@ def setup_logging():
     )
 
 
+def fix_encoding(text):
+    """Corrige a codificação do texto."""
+    try:
+        return text.encode("latin1").decode("utf-8")
+    except Exception:
+        return text
+
+
 def extract_table_data(pdf_path):
     """Extrai dados da tabela do PDF usando pdfplumber."""
     setup_logging()
@@ -25,7 +33,11 @@ def extract_table_data(pdf_path):
                     for row in table:
                         # Correção de caracteres, normaliza acentos e remoção de espaços extras
                         row_clean = [
-                            unicodedata.normalize("NFC", col.strip()) if col else ""
+                            (
+                                fix_encoding(unicodedata.normalize("NFC", col.strip()))
+                                if col
+                                else ""
+                            )
                             for col in row
                         ]
 
