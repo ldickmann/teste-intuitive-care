@@ -5,6 +5,9 @@ import logging
 def transform_and_save(data, output_path, nome):
     """Transforma os dados que foram extraídos, faz a substituição das abreviações e salva em um arquivo CSV."""
     try:
+        # Log para verificar os dados antes da criação do DataFrame
+        logging.info(f"Dados extraídos: {data}")
+
         # Cria um DataFrame com os dados extraídos
         df = pd.DataFrame(data)
 
