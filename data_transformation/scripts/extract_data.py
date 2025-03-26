@@ -4,6 +4,13 @@ import logging
 import pandas as pd
 
 
+def setup_logging():
+    """Configura o logging para o projeto."""
+    logging.basicConfig(
+        level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+    )
+
+
 def extract_table_data(pdf_path):
     """
     Extrai dados da tabela do PDF
@@ -32,21 +39,19 @@ def extract_table_data(pdf_path):
                         # Procura por linhas que parecem dados da tabela
                         if re.match(r"^\s*\d+", line):
                             # Divide a linha em colunas
-                            parts = (
-                                line.split()
-                            )  # Inicialmente divide por espaços em branco
+                            parts = line.split()
 
-                            # Tente agrupar as colunas, considerando os padrões da tabela
-                            if (
-                                len(parts) > 9
-                            ):  # Se há muitas "colunas", tenta reagrupar
-
+                            # Agrup as colunas, considerando os padrões da tabela
+                            if len(parts) > 9:
                                 parts[1] = " ".join(parts[1:-7])
                                 parts = parts[:2] + parts[-7:]
 
-                            all_data.append(
-                                parts
-                            )  # Adiciona a linha processada aos dados
+                            if len(parts) == 13:
+                                all_data.append(parts)
+                            else:
+                                logging.warning(
+                                    f"Linha com número incorreto de colunas: {parts}"
+                                )
 
         logging.info(f"Total de linhas extraídas: {len(all_data)}")
     except Exception as e:
@@ -54,10 +59,3 @@ def extract_table_data(pdf_path):
         return None
 
     return all_data
-
-
-def setup_logging():
-    """Configura o logging para o projeto."""
-    logging.basicConfig(
-        level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-    )

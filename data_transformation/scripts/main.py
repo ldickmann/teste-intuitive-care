@@ -8,10 +8,17 @@ import zip_data as zip_file
 def main():
     """Função principal do script de transformação e extração de dados."""
     extract_data.setup_logging()
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     nome = "Lucas Elias Dickmann"
-    pdf_path = "data/anexo_1.pdf"  # Especifica o caminho do arquivo PDF
-    csv_path = "data/rol_procedimentos.csv"
-    zip_path = f"data/Teste_{nome}.zip"  # Caminho e nome do arquivo ZIP de saída
+    pdf_path = os.path.join(
+        base_dir, "data", "anexo_1.pdf"
+    )  # Caminho absoluto para o arquivo PDF
+    csv_path = os.path.join(
+        base_dir, "data", "rol_procedimentos.csv"
+    )  # Caminho e nome do arquivo CSV de saída
+    zip_path = os.path.join(
+        base_dir, "data", f"Teste_{nome}.zip"
+    )  # Caminho e nome do arquivo ZIP de saída
 
     # Extrai dados da tabela do PDF
     logging.info("Extraindo dados da tabela do PDF...")
