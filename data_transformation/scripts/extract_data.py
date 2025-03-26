@@ -12,9 +12,7 @@ def setup_logging():
 
 
 def extract_table_data(pdf_path):
-    """
-    Extrai dados da tabela do PDF
-    """
+    """Extrai dados da tabela do PDF."""
     setup_logging()
 
     all_data = []
@@ -36,22 +34,29 @@ def extract_table_data(pdf_path):
                         if "OD" in line and "AMB" in line:
                             continue
 
-                        # Procura por linhas que parecem dados da tabela
-                        if re.match(r"^\s*\d+", line):
-                            # Divide a linha em colunas
-                            parts = line.split()
+                        # Log para verificação do conteúdo extraído da linha
+                        logging.debug(f"Linha extraída: {line}")
 
-                            # Agrup as colunas, considerando os padrões da tabela
-                            if len(parts) > 9:
-                                parts[1] = " ".join(parts[1:-7])
-                                parts = parts[:2] + parts[-7:]
+                        # Divisão da linha em colunas
+                        parts = re.split(r"\s{2,}", line.strip())
 
-                            if len(parts) == 13:
-                                all_data.append(parts)
-                            else:
-                                logging.warning(
-                                    f"Linha com número incorreto de colunas: {parts}"
-                                )
+                        # Ajusta as colunas com base no número de colunas esperado
+                        if len(parts) > 13:
+                            parts[0] = " ".join(parts[:2])
+                            parts = parts[:1] + parts[2:]
+                        elif len(parts) < 13:
+                            logging.warning(
+                                f"Linha com número incorreto de colunas: {parts}"
+                            )
+                            continue
+
+                        # Verifica se a linha tem 13 colunas
+                        if len(parts) == 13:
+                            all_data.append(parts)
+                        else:
+                            logging.warning(
+                                f"Linha com número incorreto de colunas: {parts}"
+                            )
 
         logging.info(f"Total de linhas extraídas: {len(all_data)}")
     except Exception as e:
