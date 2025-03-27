@@ -1,3 +1,5 @@
+CREATE DATABASE intuitive_care;
+
 CREATE TABLE IF NOT EXISTS operadoras_ans (
   Registro_ANS INT UNSIGNED NOT NULL COMMENT 'Número de registro da operadora na ANS',
   CNPJ VARCHAR(14) NOT NULL COMMENT 'Cadastro Nacional da Pessoa Jurídica da operadora',
