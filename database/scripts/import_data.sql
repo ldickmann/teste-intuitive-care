@@ -69,7 +69,7 @@ LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/3T2023.csv' INTO
   @saldo_final
 )
 SET
-  -- Modifcação do formato da data para importação desse arquivo
+  -- Modifcação do formato da data para importação de certos arquivos
   data_movimentacao = STR_TO_DATE(@data_movimentacao, '%Y-%m-%d'),
   saldo_inicial = CAST(
     REPLACE(REPLACE(TRIM(@saldo_inicial), '.', ''), ',', '.') AS DECIMAL(18, 2)
