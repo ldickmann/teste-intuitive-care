@@ -1,4 +1,3 @@
--- Criação da tabela operadoras_ans conforme o arquivo CSV das Operadoras Ativas na ANS
 CREATE TABLE
   IF NOT EXISTS operadoras_ans (
     Registro_ANS INT UNSIGNED NOT NULL COMMENT 'Número de registro da operadora na ANS',
@@ -24,3 +23,15 @@ CREATE TABLE
     CONSTRAINT pk_operadoras_ans PRIMARY KEY (Registro_ANS),
     CONSTRAINT uq_operadoras_ans_CNPJ UNIQUE (CNPJ)
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'Tabela para armazenar informações cadastrais das operadoras de planos de saúde registradas na ANS, extraídas do arquivo relatorio_cadop.csv';
+
+CREATE TABLE
+  IF NOT EXISTS despesas_operadoras (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    data_movimentacao DATE NOT NULL COMMENT 'Data da movimentação',
+    registro_ans INT UNSIGNED NOT NULL COMMENT 'Número de registro da operadora na ANS',
+    codigo_conta_contabil VARCHAR(20) NOT NULL COMMENT 'Código da conta contábil',
+    descricao VARCHAR(255) NOT NULL COMMENT 'Descrição da conta contábil',
+    saldo_inicial DECIMAL(18, 2) NOT NULL COMMENT 'Saldo inicial do período',
+    saldo_final DECIMAL(18, 2) NOT NULL COMMENT 'Saldo final do período',
+    CONSTRAINT fk_registro_ans FOREIGN KEY (registro_ans) REFERENCES operadoras_ans (Registro_ANS)
+  ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'Tabela para armazenar as despesas das operadoras.';
