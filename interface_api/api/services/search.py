@@ -15,7 +15,7 @@ class OperadoraService:
         """Carrega o CSV e ajusta a formatação."""
         try:
             df = pd.read_csv(
-                settings.DATA_PATH, delimiter=";", encoding="latin1", dtype=str
+                settings.DATA_PATH, delimiter=";", encoding="utf-8-sig", dtype=str
             )
             df.columns = [
                 "registro_ans",
