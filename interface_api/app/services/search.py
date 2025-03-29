@@ -39,9 +39,11 @@ class OperadoraService:
                 "regiao_comercializacao",
                 "data_registro_ans",
             ]
+
+            # Limpeza e normalização dos dados
             df = df.fillna("")
             df["nome_fantasia"] = df["nome_fantasia"].apply(unidecode.unidecode)
-            df["cidade"] = df["cidade"].apply(unidecode.unidecode)
+            df["cidade"] = df["cidade"].apply(unidecode.unidecode)  # Normalizar cidades
             df["uf"] = df["uf"].str.upper()
             return df
         except Exception as e:
@@ -49,7 +51,7 @@ class OperadoraService:
             return pd.DataFrame()
 
     def buscar_operadoras(self, termo: str) -> List[Operadora]:
-        """Busca operadoras que contenham o termo no nome, cidade ou CNPJ."""
+        """Busca operadoras que contenham o termo no nome, cidade ou CNPJ. Busca Geral."""
         termo_normalizado = unidecode.unidecode(termo).lower()
         resultados = self.df[
             self.df["nome_fantasia"]
