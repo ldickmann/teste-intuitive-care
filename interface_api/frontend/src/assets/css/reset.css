@@ -1,0 +1,53 @@
+/* === Reset CSS === */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+  background-color: #242424;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+/* Remove estilos padrão de listas */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Imagens e outros elementos de mídia sejam responsivos */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Removendo estilos padrão de formulários */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Correção para links */
+a {
+  text-decoration: none;
+  color: inherit;
+}
