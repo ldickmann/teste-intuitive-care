@@ -1,8 +1,8 @@
 # Logica para buscar as operadoras
 
 import pandas as pd
-import app.core.config as settings
-import app.models.operadora as Operadora
+from app.core.config import settings
+from app.models.operadora import Operadora
 from typing import List
 import unidecode
 
