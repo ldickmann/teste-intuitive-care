@@ -6,3 +6,10 @@
   --background-color: #ffffff;
   --text-color: #333333;
 }
+
+/* Styles for the body */
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
