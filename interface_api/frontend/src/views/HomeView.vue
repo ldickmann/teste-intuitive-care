@@ -25,11 +25,21 @@
 
     <div v-if="results && results.length">
       <h2>Resultados da Busca:</h2>
-      <ul>
+      <ul class="operadoras-list">
         <li
           v-for="(result, index) in results"
-          :key="index">
-          {{ result.name }} - {{ result.cnpj }} - {{ result.city }}
+          :key="index"
+          class="operadora-card">
+          <p>CNPJ: {{ result.cnpj }}</p>
+          <p>Razão Social: {{ result.razao_social }}</p>
+          <p>Nome Fantasia: {{ result.nome_fantasia }}</p>
+          <p>Modalidade: {{ result.modalidade }}</p>
+          <p>Logradouro: {{ result.logradouro }}</p>
+          <p>Bairro: {{ result.bairro }}</p>
+          <p>Cidade: {{ result.cidade }}</p>
+          <p>CEP: {{ result.cep }}</p>
+          <p>Telefone: {{ result.telefone }}</p>
+          <p>Email: {{ result.email }}</p>
         </li>
       </ul>
     </div>
@@ -46,29 +56,24 @@ function useSearch() {
   const errorMessage = ref("");
   const results = ref([]);
 
-  async function search(query) {
+  const search = async (term) => {
     isLoading.value = true;
     errorMessage.value = "";
     results.value = [];
+
     try {
-      const response = await axios.get("http://localhost:5000/search", {
-        params: { query },
+      const response = await axios.get(`http://localhost:8000/api/buscar`, {
+        params: { nome: term },
       });
       results.value = response.data;
     } catch (error) {
-      errorMessage.value = "Erro ao buscar os dados.";
-      console.error("Erro na busca:", error);
+      errorMessage.value = "Erro ao buscar operadoras. Tente novamente.";
     } finally {
       isLoading.value = false;
     }
-  }
-
-  return {
-    isLoading,
-    errorMessage,
-    results,
-    search,
   };
+
+  return { isLoading, errorMessage, results, search };
 }
 
 const searchTerm = ref("");
@@ -123,5 +128,18 @@ button:hover {
 .error {
   color: red;
   margin-top: 10px;
+}
+
+.operadoras-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.operadora-card {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
 }
 </style>
