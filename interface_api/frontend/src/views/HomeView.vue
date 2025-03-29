@@ -88,8 +88,12 @@ function performSearch() {
 
 <style scoped>
 .home-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   margin: 20px;
-  font-family: Arial, sans-serif;
+  gap: 20px;
 }
 
 .search-container {
