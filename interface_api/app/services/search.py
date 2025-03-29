@@ -1,5 +1,4 @@
-# Logica para buscar as operadoras
-
+# ...existing imports...
 import pandas as pd
 from app.core.config import settings
 from app.models.operadora import Operadora
@@ -40,13 +39,9 @@ class OperadoraService:
                 "regiao_comercializacao",
                 "data_registro_ans",
             ]
-
-            # Limpeza e ajustes
             df = df.fillna("")
-            df["nome_fantasia"] = df["nome_fantasia"].apply(
-                unidecode.unidecode
-            )  # Remover acentos
-            df["cidade"] = df["cidade"].apply(unidecode.unidecode)  # Normalizar cidades
+            df["nome_fantasia"] = df["nome_fantasia"].apply(unidecode.unidecode)
+            df["cidade"] = df["cidade"].apply(unidecode.unidecode)
             df["uf"] = df["uf"].str.upper()
             return df
         except Exception as e:
@@ -54,7 +49,7 @@ class OperadoraService:
             return pd.DataFrame()
 
     def buscar_operadoras(self, termo: str) -> List[Operadora]:
-        """Busca operadoras que contenham o termo no nome, cidade ou CNPJ. Busca Geral."""
+        """Busca operadoras que contenham o termo no nome, cidade ou CNPJ."""
         termo_normalizado = unidecode.unidecode(termo).lower()
         resultados = self.df[
             self.df["nome_fantasia"]
@@ -69,10 +64,13 @@ class OperadoraService:
         return [Operadora(**row.to_dict()) for _, row in resultados.iterrows()]
 
     def buscar_operadoras_relevantes(self, termo: str) -> List[Operadora]:
-        """Busca operadoras mais relevantes com base no nome fantasia."""
+        """Busca operadoras mais relevantes com base no nome fantasia.
+        Se não houver termo, retorna as 10 primeiras operadoras."""
+        if not termo:
+            return [
+                Operadora(**row.to_dict()) for _, row in self.df.head(10).iterrows()
+            ]
         termo_normalizado = unidecode.unidecode(termo).lower()
-
-        # Filtra os registros relevantes
         resultados = self.df[
             self.df["nome_fantasia"]
             .str.lower()
@@ -83,14 +81,8 @@ class OperadoraService:
             | self.df["cnpj"].str.contains(termo_normalizado, na=False)
             | self.df["cidade"].str.lower().str.contains(termo_normalizado, na=False)
         ]
-
-        # Aplica a biblioteca fuzzywuzzy para encontrar os nomes mais relevantes
         nomes_fantasia = resultados["nome_fantasia"].tolist()
-        melhores_nomes = process.extract(
-            termo_normalizado, nomes_fantasia, limit=10
-        )  # As 10 mais relevantes
-
-        # Filtra os resultados mais relevantes
+        melhores_nomes = process.extract(termo_normalizado, nomes_fantasia, limit=10)
         operadoras_relevantes = resultados[
             resultados["nome_fantasia"].isin([nome[0] for nome in melhores_nomes])
         ]
@@ -99,4 +91,5 @@ class OperadoraService:
         ]
 
 
+# Instancia o serviço para uso nas rotas
 operadora_service = OperadoraService()
