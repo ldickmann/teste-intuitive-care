@@ -1,7 +1,7 @@
 # ...existing imports...
 import pandas as pd
-from core.config import settings
-from models.operadora import Operadora
+from ..core.config import settings
+from ..models.operadora import Operadora
 from typing import List
 import unidecode
 from fuzzywuzzy import process  # Biblioteca para buscas aproximadas
