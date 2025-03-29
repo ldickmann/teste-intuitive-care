@@ -1,6 +1,6 @@
 # Configurações globais da API
 
-import os
+
 from pathlib import Path
 
 

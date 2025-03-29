@@ -1,9 +1,9 @@
 # Definição das rotas da API
 
 from fastapi import APIRouter, Query
-from app.services.search import operadora_service
+from api.services.search import operadora_service
 from typing import List
-from app.models.operadora import Operadora
+from api.models.operadora import Operadora
 
 router = APIRouter()
 

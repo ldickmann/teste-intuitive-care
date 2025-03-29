@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.routes import router as api_router
-from app.core.config import settings
+from api.routes.routes import router as api_router
+from api.core.config import settings
 
 # Configuração de inicialização do FastAPI
 app = FastAPI(
