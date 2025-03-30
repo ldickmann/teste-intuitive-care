@@ -10,7 +10,6 @@
   - [Database](#database)
   - [Interface & API](#interface--api)
   - [Web Scraping](#web-scraping)
-- [Contribuição](#contribuição)
 - [Considerações Finais](#considerações-finais)
 
 ## Sobre
@@ -97,10 +96,6 @@ Este repositório contém diversos códigos realizados no teste da Intuitive Car
    ```sh
    python scripts/web_scraping.py
    ```
-
-## Contribuição
-
-Contribuições são bem-vindas! Veja as [diretrizes de contribuição](CONTRIBUTING.md) para mais informações.
 
 ## Considerações Finais
 
