@@ -1,6 +1,21 @@
 # Teste Intuitive Care
 
-Este repositório contém diversos testes realizados no projeto, separados em diretórios que representam cada teste específico. Cada teste foca em uma área da aplicação, permitindo análises isoladas e evoluções direcionadas. A seguir, uma visão geral de cada teste e instruções básicas de uso.
+## Sumário
+
+- [Sobre](#sobre)
+- [Estrutura de Diretórios](#estrutura-de-diretórios)
+- [Pré-requisitos](#pré-requisitos)
+- [Como Executar os Testes](#como-executar-os-testes)
+  - [Data Transformation](#data-transformation)
+  - [Database](#database)
+  - [Interface & API](#interface--api)
+  - [Web Scraping](#web-scraping)
+- [Contribuição](#contribuição)
+- [Considerações Finais](#considerações-finais)
+
+## Sobre
+
+Este repositório contém diversos códigos realizados no teste da Intuitive Care, separados em diretórios que representam cada teste específico. Cada script foca em uma área da aplicação, permitindo análises isoladas e evoluções direcionadas.
 
 ## Estrutura de Diretórios
 
@@ -13,15 +28,21 @@ Este repositório contém diversos testes realizados no projeto, separados em di
   Veja o [README](database/README.md) para orientações sobre a configuração e execução dos scripts.
 
 - **interface_api**  
-  Teste Interface & API – Implementa a API com FastAPI e a interface frontend (Vue 3), possibilitando a consulta de
-  dados das operadoras.  
+  Teste Interface & API – Implementa a API com FastAPI e a interface frontend (Vue 3), possibilitando a consulta de dados das operadoras.  
   As instruções de uso estão no [README](interface_api/README.md).
 
 - **web_scraping**  
-  Teste de Web Scraping – Realiza a extração e compactação de PDFs a partir de páginas web.
+  Teste de Web Scraping – Realiza a extração e compactação de PDFs a partir de páginas web.  
   Detalhes sobre a configuração e execução encontram-se no [README](web_scraping/README.md).
 
-## Como Executar os Testes
+## Pré-requisitos
+
+- Python 3.x
+- Node.js (para o frontend)
+- Dependências específicas para cada teste (consulte os READMEs dentro de cada diretório)
+- Banco de dados (para o teste banco de dados)
+
+## Como Executar
 
 ### Data Transformation
 
@@ -47,23 +68,20 @@ Este repositório contém diversos testes realizados no projeto, separados em di
 1. Crie um ambiente virtual e instale as dependências:
    ```sh
    python -m venv venv
-   source venv/bin/activate  # Linux/Mac
    venv\Scripts\activate  # Windows
    pip install -r requirements.txt
    ```
-2. Inicie o servidor, a API:
-
+2. Inicie o servidor da API:
    ```sh
    uvicorn api.main:app --host 0.0.0.0 --port 8000
    ```
-
 3. Para a interface frontend, acesse o diretório e execute:
    ```sh
    cd frontend
    yarn install
    yarn dev
    ```
-4. A documentação interativa da API está disponível em http://localhost:8000/docs.
+4. A documentação interativa da API está disponível em [http://localhost:8000/docs](http://localhost:8000/docs).
 
 ### Web Scraping
 
@@ -72,21 +90,23 @@ Este repositório contém diversos testes realizados no projeto, separados em di
    cd web_scraping
    ```
 2. Instale as dependências:
-
    ```sh
    pip install -r requirements.txt
    ```
-
 3. Execute o script principal:
    ```sh
    python scripts/web_scraping.py
    ```
 
-#### Considerações Finais
+## Contribuição
 
-- Ambientes Virtuais: Utilize virtualenv ou venv para isolar as dependências de cada teste.
-- Configurações: Verifique se os arquivos de configuração e os dados necessários estão corretamente posicionados conforme descrito nos READMEs de cada diretório.
-- Boas Práticas: Mantenha a documentação atualizada e consulte as instruções específicas de cada teste para garantir a correta execução dos scripts.
+Contribuições são bem-vindas! Veja as [diretrizes de contribuição](CONTRIBUTING.md) para mais informações.
+
+## Considerações Finais
+
+- Use ambientes virtuais (virtualenv ou venv) para isolar as dependências de cada teste.
+- Verifique se os arquivos de configuração e os dados necessários estão corretamente posicionados conforme descrito.
+- Mantenha a documentação atualizada consultando as instruções específicas de cada teste.
 
 ---
 
