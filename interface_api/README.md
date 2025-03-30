@@ -25,15 +25,21 @@ Este projeto implementa a interface e as APIs que permitem consultas e manipula�
 
 ### API
 
-1. Crie um ambiente virtual e instale as dependências:
+1. Navegue até o diretório da API:
+
+   ```sh
+   cd interface_api
+   ```
+
+2. Crie um ambiente virtual e instale as dependências:
    ```sh
    pip install -r requirements.txt
    ```
-2. Execute a API:
+3. Execute a API:
    ```sh
    uvicorn api.main:app --host 0.0.0.0 --port 8000
    ```
-3. Acesse a documentação interativa em [http://localhost:8000/docs](http://localhost:8000/docs).
+4. Acesse a documentação interativa em [http://localhost:8000/docs](http://localhost:8000/docs).
 
 ### Frontend
 
